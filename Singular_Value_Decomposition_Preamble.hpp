@@ -15,39 +15,62 @@
 //#####################################################################
 
 #ifdef PRINT_DEBUGGING_OUTPUT
-#include <iomanip>
-#include <iostream>
+  #include <iomanip>
+  #include <iostream>
 #endif
 
 #ifdef USE_SCALAR_IMPLEMENTATION
-#define ENABLE_SCALAR_IMPLEMENTATION(X) X
+  #define ENABLE_SCALAR_IMPLEMENTATION(X) X
 #else
-#define ENABLE_SCALAR_IMPLEMENTATION(X)
+  #define ENABLE_SCALAR_IMPLEMENTATION(X)
 #endif
 
 #ifdef USE_SSE_IMPLEMENTATION
-#define ENABLE_SSE_IMPLEMENTATION(X) X
+  #include <xmmintrin.h>
+  #define ENABLE_SSE_IMPLEMENTATION(X) X
 #else
-#define ENABLE_SSE_IMPLEMENTATION(X)
+  #define ENABLE_SSE_IMPLEMENTATION(X)
 #endif
 
 #ifdef USE_AVX_IMPLEMENTATION
-#include <immintrin.h>
-#define ENABLE_AVX_IMPLEMENTATION(X) X
+  #include <immintrin.h>
+  #define ENABLE_AVX_IMPLEMENTATION(X) X
 #else
-#include <xmmintrin.h>
-#define ENABLE_AVX_IMPLEMENTATION(X)
+  #define ENABLE_AVX_IMPLEMENTATION(X)
+#endif
+
+#ifdef USE_NEON_IMPLEMENTATION
+  #include <arm_neon.h>
+  #define ENABLE_NEON_IMPLEMENTATION(X) X
+#else
+  #define ENABLE_NEON_IMPLEMENTATION(X)
 #endif
 
 #ifdef USE_SCALAR_IMPLEMENTATION
-float rsqrt(const float f)
-{
+
+  #if defined(__i386__) || defined(__x86_64__)
+
+float rsqrt(const float f) {
     float buf[4];
-    buf[0]=f;
-    __m128 v=_mm_loadu_ps(buf);
-    v=_mm_rsqrt_ss(v);
-    _mm_storeu_ps(buf,v);
+    buf[0] = f;
+    __m128 v = _mm_loadu_ps(buf);
+    v = _mm_rsqrt_ss(v);
+    _mm_storeu_ps(buf, v);
     return buf[0];
 }
-#endif
 
+  #elif defined(__arm__) || defined(__aarch64__)
+
+    #include <arm_neon.h>
+
+float rsqrt(const float f) {
+    float32x2_t v = vdup_n_f32(f);   // replicate scalar
+    float32x2_t r = vrsqrte_f32(v);  // reciprocal sqrt estimate
+    return vget_lane_f32(r, 0);
+}
+  #else
+inline float rsqrt(const float f) {
+    return 1.0f / sqrtf(f);
+}
+  #endif
+#endif

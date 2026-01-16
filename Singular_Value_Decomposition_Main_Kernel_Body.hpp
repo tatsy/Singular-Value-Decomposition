@@ -24,10 +24,22 @@
 { // Begin block : Scope of qV (if not maintained)
 
 #ifndef COMPUTE_V_AS_QUATERNION
-    ENABLE_SCALAR_IMPLEMENTATION(union {float f;unsigned int ui;} Sqvs;)                  ENABLE_SSE_IMPLEMENTATION(__m128 Vqvs;)                                                   ENABLE_AVX_IMPLEMENTATION(__m256 Vqvs;) 
-    ENABLE_SCALAR_IMPLEMENTATION(union {float f;unsigned int ui;} Sqvvx;)                 ENABLE_SSE_IMPLEMENTATION(__m128 Vqvvx;)                                                  ENABLE_AVX_IMPLEMENTATION(__m256 Vqvvx;)
-    ENABLE_SCALAR_IMPLEMENTATION(union {float f;unsigned int ui;} Sqvvy;)                 ENABLE_SSE_IMPLEMENTATION(__m128 Vqvvy;)                                                  ENABLE_AVX_IMPLEMENTATION(__m256 Vqvvy;)
-    ENABLE_SCALAR_IMPLEMENTATION(union {float f;unsigned int ui;} Sqvvz;)                 ENABLE_SSE_IMPLEMENTATION(__m128 Vqvvz;)                                                  ENABLE_AVX_IMPLEMENTATION(__m256 Vqvvz;)
+    ENABLE_SCALAR_IMPLEMENTATION(union {float f;unsigned int ui;} Sqvs;)
+    ENABLE_SSE_IMPLEMENTATION(__m128 Vqvs;)
+    ENABLE_AVX_IMPLEMENTATION(__m256 Vqvs;)
+    ENABLE_NEON_IMPLEMENTATION(float32x4_t Vqvs;)
+    ENABLE_SCALAR_IMPLEMENTATION(union {float f;unsigned int ui;} Sqvvx;)
+    ENABLE_SSE_IMPLEMENTATION(__m128 Vqvvx;)
+    ENABLE_AVX_IMPLEMENTATION(__m256 Vqvvx;)
+    ENABLE_NEON_IMPLEMENTATION(float32x4_t Vqvvx;)
+    ENABLE_SCALAR_IMPLEMENTATION(union {float f;unsigned int ui;} Sqvvy;)
+    ENABLE_SSE_IMPLEMENTATION(__m128 Vqvvy;)
+    ENABLE_AVX_IMPLEMENTATION(__m256 Vqvvy;)
+    ENABLE_NEON_IMPLEMENTATION(float32x4_t Vqvvy;)
+    ENABLE_SCALAR_IMPLEMENTATION(union {float f;unsigned int ui;} Sqvvz;)
+    ENABLE_SSE_IMPLEMENTATION(__m128 Vqvvz;)
+    ENABLE_AVX_IMPLEMENTATION(__m256 Vqvvz;)
+    ENABLE_NEON_IMPLEMENTATION(float32x4_t Vqvvz;)
 #endif
 
 { // Begin block : Symmetric eigenanalysis

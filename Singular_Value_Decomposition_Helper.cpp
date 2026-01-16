@@ -198,8 +198,9 @@ Run_Index_Range(const int imin,const int imax_plus_one)
 
 }
 //#####################################################################
+namespace Singular_Value_Decomposition{
 template class Singular_Value_Decomposition_Size_Specific_Helper<float,65536>;
 template class Singular_Value_Decomposition_Size_Specific_Helper<float,1048576>;
 template class Singular_Value_Decomposition_Size_Specific_Helper<float,4*1048576>;
 template class Singular_Value_Decomposition_Size_Specific_Helper<float,16*1048576>;
-
+}
