@@ -1,0 +1,9 @@
+# DisableFormat: true
+
+BasedOnStyle: LLVM
+
+ColumnLimit: 120
+IndentWidth: 4
+Standard: Cpp11
+AccessModifierOffset: -4
+IndentCaseLabels: false
